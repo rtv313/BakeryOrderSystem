@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+     {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Panaderia Artesanal91</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'OrdersApp/vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet">  
+    
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+         <a class="navbar-brand" href="#">Panaderia Artesanal 91</a>
+         <a class="navbar-brand" href="#"><ion-icon name="logo-whatsapp"></ion-icon> 443-214-6800 </a>
+         <a class="btn btn-primary" href="{% url 'ClientMenu' %}">Hacer otro Pedido</a>
+     
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading/Breadcrumbs -->
+      <h3 class="mt-4 mb-3">
+        <br>
+        <small></small>
+      </h3>
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <br>
+          <h4>Orden enviada gracias por su eleccion <ion-icon name="checkmark-circle-outline"></ion-icon></h4>
+        </li>
+      </ol>
+
+      <div class="row">
+      
+      </div>
+
+      <!-- Order Form -->
+      
+      <!-- /.OrderForm -->
+    </div>
+    <!-- /.container -->
+    <br><br>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Panaderia Artesanal 91</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'OrdersApp/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'OrdersApp/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://unpkg.com/ionicons@4.4.8/dist/ionicons.js"></script>
+  </body>
+
+<script>
+
+</script>
+
+</html>

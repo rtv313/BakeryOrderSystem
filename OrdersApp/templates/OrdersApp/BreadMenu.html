@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+     {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Panaderia Artesanal91</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'OrdersApp/vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet">  
+    
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Panaderia Artesanal 91</a>
+        <a class="navbar-brand" href="#"><ion-icon name="logo-whatsapp"></ion-icon> 443-214-6800 </a>
+        <button type="submit" class="btn btn-primary" id="sendMessageButton" data-toggle="modal" data-target="#myModal">Hacer Pedido</button>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading/Breadcrumbs -->
+      <h3 class="mt-4 mb-3">
+        <br>
+        <small></small>
+      </h3>
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <br>
+          <br>
+
+          <h5>Seleccione los panes dando clic en los botones de <ion-icon name="add-circle"></ion-icon> y <ion-icon name="remove-circle"></ion-icon> luego de clic en hacer pedido</h5>
+        </li>
+      </ol>
+
+      <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item"> 
+          <div class="card h-100">
+            <p><img class="card-img-top" src="{{url_media}}{{product.Image.url}}" alt="{{product.Name}}"></p>
+            <div class="card-body">
+              <h4 class="card-title">
+                <p>
+                  <font color="#007bff">
+                  {{product.Name}}
+                  </font>
+                </p>
+              </h4>
+              <p class="card-text">
+                {{product.Price}}$
+                <div id="bread-{{product.id}}"" value="0">Cantidad 0</div>
+
+                <button type="button" class="btn btn-primary" onclick="addBread({{product.id}})">
+                  <ion-icon name="add-circle"></ion-icon>
+                </button>
+
+                <button type="button" class="btn btn-danger" onclick="removeBread({{product.id}})">
+                  <ion-icon name="remove-circle"></ion-icon>
+                </button>
+
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- /.container -->
+    <br><br>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Panaderia Artesanal 91</p>
+        <p class="m-0 text-center text-white"><ion-icon name="logo-whatsapp"></ion-icon> 443-214-6800</p>
+      </div>
+
+      <!-- The Modal -->
+      <form method="POST">
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h5 class="modal-title">Ingrese sus datos  para el pedido y de clic en el boton de abajo</h5>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <!-- Order Form -->
+              <div class="row">
+                <div class="col-lg-8 mb-4">
+                   
+                    {% csrf_token %}
+                    <br>
+                    <div class="control-group form-group">
+                      <div class="controls">
+                        <label>Nombre:</label>
+                        <input type="text" class="form-control" id="name"  name="name" required data-validation-required-message="Por favor ponga su nombre">
+                        <p class="help-block"></p>
+                      </div>
+                    </div>
+
+                    <div class="control-group form-group">
+                      <div class="controls">
+                        <label>Apellido:</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" required data-validation-required-message="Por favor ponga su apellido">
+                      </div>
+                    </div>
+
+                    <div class="control-group form-group">
+                      <div class="controls">
+                        <label>Telefono de contacto</label>
+                        <input type="tel" class="form-control" id="tel" name="tel" required data-validation-required-message="Por favor ponga un numero de contacto.">
+                      </div>
+                    </div>
+
+                    <div class="control-group form-group">
+                      <div class="controls">
+                        <label>Nota para el panadero:</label>
+                        <textarea rows="3" cols="100" class="form-control" id="message" name="note" maxlength="999" style="resize:none"></textarea>
+                      </div>
+                    </div>
+
+
+                    {% for product in products %}
+                    <input id="checkbox-{{product.id}}" type="checkbox" name="breads" value="{{product.id}}" hidden>
+                    {% endfor %}
+
+                    <div id="success"></div>
+                  
+                </div>
+              </div>
+              <!-- /.OrderForm -->
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <input type="submit" value="Enviar" class="btn btn-primary">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      </form>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'OrdersApp/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'OrdersApp/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://unpkg.com/ionicons@4.4.8/dist/ionicons.js"></script>
+  </body>
+
+<script>
+
+    function selectBread(id,breadQuantity) 
+    {
+      var checkbox = document.getElementById("checkbox-"+id);
+
+      if (breadQuantity >= 1)
+        checkbox.checked = true;
+      else
+        checkbox.checked = false;
+
+      checkbox.setAttribute("value",id+"-"+breadQuantity);
+    }
+
+    function addBread(id) 
+    {
+      var bread = document.getElementById("bread-"+id);
+      var value = parseInt(bread.getAttribute("value"));
+      value +=1;
+      bread.setAttribute("value",value);
+      var quantityText = "Cantidad "+value;
+      bread.innerHTML = quantityText;
+      selectBread(id,value) 
+    }
+
+    function removeBread(id) 
+    {
+      var bread = document.getElementById("bread-"+id);
+      var value = parseInt(bread.getAttribute("value"));
+      value -=1;
+
+      if(value <=0)
+      {
+        value = 0;
+      }
+
+      bread.setAttribute("value",value);
+      var quantityText = "Cantidad "+value;
+      bread.innerHTML = quantityText;
+      selectBread(id,value) 
+    }
+</script>
+
+</html>
