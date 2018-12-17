@@ -7,7 +7,7 @@ from rest_framework import serializers
 class ClientOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientOrder
-        fields= ('Name','LastName','Phone','Status','Note','OrderDate')
+        fields= ('id','Name','LastName','Phone','Status','Note','OrderDate')
 
       
 
