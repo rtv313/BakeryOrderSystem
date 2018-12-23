@@ -2,7 +2,8 @@ from django.shortcuts import render
 from OrdersApp.models import *
 from django.conf import settings
 from django.shortcuts import redirect
-from datetime import datetime   
+from datetime import datetime 
+import requests  
 # Create your views here.
 
 def ClientMenu (request):
@@ -29,6 +30,12 @@ def ClientMenu (request):
             selectedBread = Product.objects.get(pk=productId)
             orderProduct = OrderProduct.objects.create(Quantity = productQuantity,Client= clientOrder,Product = selectedBread)
             orderProduct.save();
+        
+        
+        headers = {'Content-Type': 'application/json','Authorization':settings.FIRE_BASE }
+        requests.post('https://fcm.googleapis.com/fcm/send',
+                      json = {'to':'/topics/NuevosPedidos'},
+                      headers = headers)
         
         return redirect('MakeOrder')
             

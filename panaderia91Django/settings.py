@@ -134,3 +134,5 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR+'/panaderia91Django'),"media"
 MEDIA_URL = '/media/'
 
 MEDIA_DOMAIN = "http://127.0.0.1:8000" # Full URL to get access to the images 
+
+FIRE_BASE = 'key=AAAAB_d0SIo:APA91bHKn1yThzkbfhjbn03caLhIPvjkndHQedE57bBHYM21H4Zsp53arketPbpeZsOUz-PXi4T0m8bIog_9pPMX6aCRrPVvOA1b0bBQlX1M6uyf5LYIJOciRBSagKcHQ4kXfXmMh7dm'

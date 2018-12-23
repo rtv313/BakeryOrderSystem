@@ -14,5 +14,7 @@ class ClientOrderSerializer(serializers.ModelSerializer):
     
 
 
-
+class SearchOrder(serializers.Serializer):
+    Status = serializers.CharField()
+    
     
