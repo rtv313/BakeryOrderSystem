@@ -38,5 +38,26 @@ class Orders(APIView):
         
             
         clientSerializer  = ClientOrderSerializer(clients,many=True)
+        
         return Response(clientSerializer.data, status=status.HTTP_200_OK)
+    
+    
+class OrderDetail(APIView):
+    
+    def get(self,request,pk,format=None):
+        
+        client  = ClientOrder.objects.get(pk=pk)   
+        orders = OrderProduct.objects.filter(Client_id = client.pk)
+        list = []
+        
+        for order in orders:
+            product = ProductApi(name=order.Product.Name ,quantity= order.Quantity,price= order.Product.Price)
+            list.append(product)
+        
+        
+        cliente  = ClientePedido(client,list)
+        answerRest = ClientePedidoSerializer(cliente)
+        
+        return Response(answerRest.data,status=status.HTTP_200_OK)
+        
     
