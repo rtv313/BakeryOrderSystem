@@ -7,6 +7,7 @@ from rest_framework import status
 from django.http.response import HttpResponse,HttpResponseForbidden
 import datetime
 from datetime import datetime,timedelta
+from django.db.models import Sum
 
 
 #token 89f39b9d21b410971637dc5a76d60ab85a3a8da8
@@ -18,9 +19,7 @@ class Orders(APIView):
         
         if not searchData.is_valid():
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
-        
-        print(searchData.validated_data['Status'])
-        
+     
         selectedStatus = searchData.validated_data['Status'];
         
         clients = None
@@ -59,5 +58,39 @@ class OrderDetail(APIView):
         answerRest = ClientePedidoSerializer(cliente)
         
         return Response(answerRest.data,status=status.HTTP_200_OK)
+    
+    def put (self,request,pk,format = None):
+        
+        searchData = SearchOrder(data=request.data)
+        
+        if not searchData.is_valid():
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+     
+        selectedStatus = searchData.validated_data['Status'];
+        
+        client  = ClientOrder.objects.get(pk=pk) 
+        client.Status = selectedStatus
+        client.save()
+        
+        return Response(status=status.HTTP_200_OK)
+    
+class OrdersResume(APIView):
+    
+    def get (self,request,format = None):
+        
+        products = OrderProduct.objects.filter(Client__Status = "PENDIENTE").values('Product__Name').annotate(Sum('Quantity'))
+        productResume = []
+        
+        for product in products: 
+            name = product["Product__Name"]
+            quantity = product["Quantity__sum"]
+            productResume.append(ProductResume(name,quantity))
+            
+        answer = ProductResumeSerializer(productResume,many=True)
+        
+        return Response(answer.data,status=status.HTTP_200_OK)
+        
+        
+        
         
     

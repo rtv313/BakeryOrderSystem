@@ -45,6 +45,17 @@ class ClientePedidoSerializer(serializers.Serializer):
         instance.Name = validated_data.get("Client",instance.Client)
         instance.Products = validated_data.get("Products",instance.Products)
         return instance
+    
+
+class ProductResume():
+    def __init__(self,ProductName,Quantity):
+        self.ProductName = ProductName
+        self.Quantity = Quantity
+
+class ProductResumeSerializer(serializers.Serializer):
+    ProductName = serializers.CharField() 
+    Quantity = serializers.IntegerField()
+    
      
     
 
