@@ -89,6 +89,39 @@ class OrdersResume(APIView):
         answer = ProductResumeSerializer(productResume,many=True)
         
         return Response(answer.data,status=status.HTTP_200_OK)
+    
+
+class SalesReport(APIView):
+    
+    def post(self,request,format = None):
+        
+        datesData = SalesReportData(data=request.data)
+        
+        if not datesData.is_valid():
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+        firstDate = datesData.validated_data['firstDate']
+        secondDate = datesData.validated_data['secondDate']
+        products = OrderProduct.objects.filter(Client__OrderDate__range = [firstDate,secondDate]).values('Product__Name','Product__ProductionCost','Product__Price').annotate(Sum('Quantity'))
+        productDataResume = []
+        
+        for product in products: 
+            
+            name = product["Product__Name"]
+            quantity = product["Quantity__sum"]
+            cost = product["Product__ProductionCost"]
+            price = product["Product__Price"]
+            
+            productDataResume.append(ProductDataResume(name,quantity,cost,price))
+            
+        answer = ProductDataResumeSerializer(productDataResume,many=True)
+        
+        return Response(answer.data,status=status.HTTP_200_OK)
+        
+    
+    
+
+
         
         
         

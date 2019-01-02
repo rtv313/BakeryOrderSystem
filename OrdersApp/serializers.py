@@ -55,9 +55,24 @@ class ProductResume():
 class ProductResumeSerializer(serializers.Serializer):
     ProductName = serializers.CharField() 
     Quantity = serializers.IntegerField()
-    
+
+
+class ProductDataResume():
+    def __init__(self,ProductName,Quantity,Cost,Price):
+        self.ProductName = ProductName
+        self.Quantity = Quantity
+        self.Cost = Cost
+        self.Price = Price
+
+class ProductDataResumeSerializer(serializers.Serializer):
+    ProductName = serializers.CharField() 
+    Quantity = serializers.IntegerField()
+    Cost = serializers.FloatField()
+    Price = serializers.FloatField()
      
-    
+class SalesReportData(serializers.Serializer):
+    firstDate = serializers.DateField()
+    secondDate = serializers.DateField()
 
 
 
