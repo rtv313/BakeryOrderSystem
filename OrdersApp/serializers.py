@@ -2,8 +2,9 @@
 from OrdersApp.models import *
 from rest_framework import serializers
 from django.core.serializers import serialize
+from drf_extra_fields.fields import Base64ImageField
 
-    
+
 
 class ClientOrderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,6 +75,25 @@ class SalesReportData(serializers.Serializer):
     firstDate = serializers.DateField()
     secondDate = serializers.DateField()
 
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields= ('id','Name','Price','ProductionCost','Image')
+        
+
+class AddProductSerializer(serializers.ModelSerializer):
+    Image = Base64ImageField()
+    class Meta:
+        model = Product
+        fields= ('Name','Price','ProductionCost','Image')
+        
+    def create(self, validated_data):
+        Image=validated_data.pop('Image')
+        Name=validated_data.pop('Name')
+        Price=validated_data.pop('Price')
+        ProductionCost=validated_data.pop('ProductionCost')
+        return Product.objects.create(Name=Name,Price=Price,ProductionCost=ProductionCost,Image=Image)
 
 
 

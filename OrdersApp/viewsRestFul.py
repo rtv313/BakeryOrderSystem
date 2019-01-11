@@ -8,7 +8,7 @@ from django.http.response import HttpResponse,HttpResponseForbidden
 import datetime
 from datetime import datetime,timedelta
 from django.db.models import Sum
-
+import base64
 
 #token 89f39b9d21b410971637dc5a76d60ab85a3a8da8
 class Orders(APIView):
@@ -102,7 +102,7 @@ class SalesReport(APIView):
         
         firstDate = datesData.validated_data['firstDate']
         secondDate = datesData.validated_data['secondDate']
-        products = OrderProduct.objects.filter(Client__OrderDate__range = [firstDate,secondDate]).values('Product__Name','Product__ProductionCost','Product__Price').annotate(Sum('Quantity'))
+        products = OrderProduct.objects.filter(Client__OrderDate__range = [firstDate,secondDate],Client__Status = "TERMINADO").values('Product__Name','Product__ProductionCost','Product__Price').annotate(Sum('Quantity'))
         productDataResume = []
         
         for product in products: 
@@ -117,9 +117,27 @@ class SalesReport(APIView):
         answer = ProductDataResumeSerializer(productDataResume,many=True)
         
         return Response(answer.data,status=status.HTTP_200_OK)
+    
+
+class Products(APIView):
+    
+    def get(self,request,format = None):
         
+        products = Product.objects.all().order_by('-Name')
+        answer = ProductSerializer(products,many = True)
+        return Response(answer.data,status=status.HTTP_200_OK)
     
-    
+    def post(self,request,format = None):
+        
+        newProductData = AddProductSerializer(data=request.data)
+        
+        if not newProductData.is_valid():
+            return Response(newProductData.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        newProductData.save()
+        
+        return Response(newProductData.data,status=status.HTTP_200_OK)
+
 
 
         

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-  
 from django.shortcuts import render
 from OrdersApp.models import *
 from django.conf import settings
@@ -5,6 +6,8 @@ from django.shortcuts import redirect
 from datetime import datetime 
 import requests  
 # Create your views here.
+
+
 
 def ClientMenu (request):
     
@@ -38,7 +41,7 @@ def ClientMenu (request):
                       headers = headers)
         
         return redirect('MakeOrder')
-            
+   
     return render(request, 'OrdersApp/BreadMenu.html',{'products':products,'url_media':settings.MEDIA_DOMAIN })
 
 def MakeOrder (request):
