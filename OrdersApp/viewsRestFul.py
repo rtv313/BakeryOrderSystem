@@ -137,7 +137,29 @@ class Products(APIView):
         newProductData.save()
         
         return Response(newProductData.data,status=status.HTTP_200_OK)
+    
+    def put(self,request,pk,format = None):
+        
+        product = Product.objects.get(pk = pk)
+        updateProduct= AddProductSerializer(product,data=request.data)
+        
+        if not updateProduct.is_valid():
+            return Response(updateProduct.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            updateProduct.save()
+            
+        return Response(updateProduct.data,status=status.HTTP_200_OK)
 
+
+class ProductsDetail(APIView):
+    
+    def get(self,request,pk,format = None):
+        
+        product = Product.objects.get(pk = pk)
+        selectedProduct = ProductSerializer(product)
+        return Response(selectedProduct.data,status=status.HTTP_200_OK)
+        
+        
 
 
         
