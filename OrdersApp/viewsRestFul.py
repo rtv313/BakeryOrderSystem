@@ -158,6 +158,18 @@ class ProductsDetail(APIView):
         product = Product.objects.get(pk = pk)
         selectedProduct = ProductSerializer(product)
         return Response(selectedProduct.data,status=status.HTTP_200_OK)
+    
+    def delete(self,request,pk,format = None):
+        
+        product = Product.objects.get(pk = pk)
+        ordersCount = OrderProduct.objects.filter(Product = product , Client__Status="PENDIENTE").count()
+        
+        if ordersCount > 0:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            product.delete()
+            
+        return Response(status=status.HTTP_200_OK)
         
         
 
