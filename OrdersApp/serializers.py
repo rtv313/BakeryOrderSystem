@@ -84,6 +84,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class AddProductSerializer(serializers.ModelSerializer):
     Image = Base64ImageField()
+    
     class Meta:
         model = Product
         fields= ('Name','Price','ProductionCost','Image')
@@ -94,6 +95,15 @@ class AddProductSerializer(serializers.ModelSerializer):
         Price=validated_data.pop('Price')
         ProductionCost=validated_data.pop('ProductionCost')
         return Product.objects.create(Name=Name,Price=Price,ProductionCost=ProductionCost,Image=Image)
+    
+class UpdateNoImageSerializer(serializers.Serializer):
+    Name = serializers.CharField()
+    Price = serializers.FloatField()
+    ProductionCost = serializers.FloatField()
+    
+        
+   
+   
 
 
 

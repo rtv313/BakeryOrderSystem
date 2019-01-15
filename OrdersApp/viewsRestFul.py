@@ -145,8 +145,8 @@ class Products(APIView):
         
         if not updateProduct.is_valid():
             return Response(updateProduct.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            updateProduct.save()
+        
+        updateProduct.save()
             
         return Response(updateProduct.data,status=status.HTTP_200_OK)
 
@@ -170,6 +170,31 @@ class ProductsDetail(APIView):
             product.delete()
             
         return Response(status=status.HTTP_200_OK)
+    
+    def put(self,request,pk,format = None):
+        
+        product = Product.objects.get(pk = pk)
+        updateProduct= UpdateNoImageSerializer(data=request.data)
+        
+        if not updateProduct.is_valid():
+            return Response(updateProduct.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        producstWithEqualName = Product.objects.filter(Name=updateProduct.validated_data['Name'])
+        
+        count = producstWithEqualName.count()
+        
+        if count  > 0:
+            if producstWithEqualName[0].pk != int(pk):
+                return Response(updateProduct.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        product.Name =  updateProduct.validated_data['Name']
+        product.Price = updateProduct.validated_data['Price']
+        product.ProductionCost = updateProduct.validated_data['ProductionCost']
+        
+        product.save()
+            
+        return Response(updateProduct.data,status=status.HTTP_200_OK)
+        
         
         
 
