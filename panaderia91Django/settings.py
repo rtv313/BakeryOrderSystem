@@ -25,7 +25,7 @@ SECRET_KEY = 'jb0v0bd7f45agzx-l*q#(1j!#jws8g9(c20!qbftq(s#d_is0%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ['134.209.1.174','localhost','127.0.0.1'] 
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'OrdersApp',
+    'panaderia91Django',
 ]
 
 REST_FRAMEWORK = {
@@ -135,6 +136,8 @@ STATIC_ROOT =   os.path.join(os.path.dirname(BASE_DIR+'/panaderia91Django'),"sta
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR+'/panaderia91Django'),"media").replace('\\', '/')
 MEDIA_URL = '/media/'
 
-MEDIA_DOMAIN = "http://127.0.0.1:8000" # Full URL to get access to the images 
+MEDIA_DOMAIN = "http://127.0.0.1:8000" # Full URL to get access to the images deploy  http://134.209.1.174/
 
 FIRE_BASE = 'key=AAAAB_d0SIo:APA91bHKn1yThzkbfhjbn03caLhIPvjkndHQedE57bBHYM21H4Zsp53arketPbpeZsOUz-PXi4T0m8bIog_9pPMX6aCRrPVvOA1b0bBQlX1M6uyf5LYIJOciRBSagKcHQ4kXfXmMh7dm'
+
+GOOGLE_RECAPTCHA_SECRET_KEY = '6Ldi4pIUAAAAALF860ty_rdQnDCZbDBGa4hyvROH'

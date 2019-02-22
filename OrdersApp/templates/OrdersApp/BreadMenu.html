@@ -134,6 +134,14 @@
                         <textarea rows="3" cols="100" class="form-control" id="message" name="note" maxlength="999" style="resize:none"></textarea>
                       </div>
                     </div>
+                    
+                    <div class="control-group form-group">
+                      <div class="controls">
+                        <label>Clic en el cuadro para activar el boton de Enviar</label>
+                        <script src='https://www.google.com/recaptcha/api.js'></script>
+                        <div class="g-recaptcha"  data-callback="enableBtn"  data-sitekey="6Ldi4pIUAAAAAI5mcypoHnwT-8nejCajy8O_TYFe"></div>
+                      </div>
+                    </div>
 
 
                     {% for product in products %}
@@ -149,7 +157,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <input type="submit" value="Enviar" class="btn btn-primary">
+                <input id="makeOrderButton" type="submit" value="Enviar" class="btn btn-primary" disabled>
             </div>
 
           </div>
@@ -205,6 +213,10 @@
       var quantityText = "Cantidad "+value;
       bread.innerHTML = quantityText;
       selectBread(id,value) 
+    }
+    
+    function enableBtn(){
+    	document.getElementById("makeOrderButton").disabled = false;
     }
 </script>
 
