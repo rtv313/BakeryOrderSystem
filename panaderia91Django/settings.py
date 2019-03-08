@@ -25,7 +25,7 @@ SECRET_KEY = 'jb0v0bd7f45agzx-l*q#(1j!#jws8g9(c20!qbftq(s#d_is0%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['134.209.1.174','localhost','127.0.0.1'] 
+ALLOWED_HOSTS = ['134.209.1.174','localhost','127.0.0.1','panaderia-artesanal91.com.mx'] 
 
 
 # Application definition
